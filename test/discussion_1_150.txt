@@ -1,0 +1,56 @@
+Read the information in the Instructor Notes for database concepts and in Chapter One in the textbook. 
+Conduct some further research and discuss why files are still highly prevalent, 
+when files would be used instead of a database management system, 
+and when/why a database management system should be used instead of 'flat files'. 
+Provide examples and/or references to support your argument.
+
+
+
+Files are still prevelant as they are lightweight and , they require little to no overhead as far
+as software relative to relational databases. 
+
+Files are ideal in sequential access scenarios.
+
+Flat files are often config files, when the whole file is needed it is often faster and lightweight when the
+data is intended for a single user and doesn't need to be modified often .
+
+Relational databases encapsulate the methods to interact with them, many programs can interact with them 
+in a standardized way that doesn't necessarily change when the database changes. Many different programs
+can easily and seamlessly interact with a RDBS. (Easier to work with) API
+
+Relational databases can ba accessed non-sequentially much faster than a flat file, especially for large
+amounts of data. 
+
+Relational databases are easier to backup and avoid corruption. 
+
+
+Flat files are adequate when:
+
+The amount of data is small
+One at a time write access is all that’s needed
+The data structure is fairly simple, or (if complex) you can provide 
+an API in library routines that each application must use in order to interpret 
+the data contents and maintain their structural integrity
+Databases are superior when:
+
+There is large data involved
+Multiuser concurrent reads and writes must be supported
+Complex structures are involved
+Complex queries and operations are needed
+Security is a significant factor
+Transactions, rollback, and consistency are necessary
+Things like Backup, Recovery, Reliability (Failover, Fault-Tolerance),
+Redundancy, Scalability etc. are requirements.
+
+In general, a database would be far faster, since an index would let you go directly 
+to the records the server has to send.
+
+OTOH, with just 40 or so messages, it's quite likely that would fit in RAM, and with so few records, 
+even the simplest linear-search routine would be far faster than a single HD access.
+
+
+**********
+
+FLAT FILE SYSTEM === CONFIG FILE, FAST AND SIMPLE LITTLE INTERACTION
+
+DBMS == SOCIAL NETWORK, MANY READS / WRITES AS WELL AS NON-LINEAR MULTI-USER
