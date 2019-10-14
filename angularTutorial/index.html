@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Angular Tutorial</title>
+  <link rel="stylesheet" href="master.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" type="image/png" href="images\angular.png" />
+</head>
+
+<body>
+  <div id="burgerModal">
+    <button id="closeModal">x</button>
+    <ul id=modalOptions>
+      <li>
+        <input id=searchBar type="text" placeholder="Search...">
+        <img id=search src=images\search.png>
+      </li>
+      <li>Resources</li>
+      <li>Projects</li>
+    </ul>
+  </div>
+
+
+  <div id="container" data-ng-app="">
+
+    <nav>
+
+      <a class="burgerContainer">
+        <div class="bars" id=bar1></div>
+        <div class="bars" id=bar2></div>
+        <div class="bars" id=bar3></div>
+      </a>
+
+      <a id=homeLink href="index.html">
+        <img id="logo" src=images\angular.png>
+      </a>
+
+    </nav>
+
+    <section>
+
+      <div id=contentLeadLine></div>
+
+      <div class=content>
+        <h2 class=contentHeader></h2>
+      </div>
+
+      <div id=contentEndLine></div>
+
+    </section>
+
+    <footer>
+
+      <a>Page Index</a>
+
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&copy;2019</p>
+
+    </footer>
+  </div>
+  <div id=pageName value=index></div>
+  <script src=scripts.js></script>
+</body>
+
+</html>
