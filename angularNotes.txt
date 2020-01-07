@@ -1,0 +1,871 @@
+ANGULAR NOTES!
+
+//notes 
+
+	//BASICS
+
+		-Angular is a JavaScript Framework for creating Single-Page-Applications (SPA's)
+
+			-Server requests are not necessary for page changes. JS changes DOM during runtime.
+
+			-Data can be exchanged in the background.
+
+		-Angular 6 is the latest release.
+
+		-Uses typeScript which compiles to javaScript.
+
+			-Angular CLI automates these tasks.
+
+				-node.js is necessary for Angular CLI. (npm)
+		
+		-How angular creates our apps...
+		
+			-main.ts > app.module.ts > bootstrap: [necessary files (ie:AppComponent)]
+			
+				-AppComponent is a class which is exported by our app.component.ts file
+			
+			-js output by our projects compilations updates the DOM
+
+	//CLI
+
+		-ng is the prefix which denotes calls to the angular CLI
+
+			-Create new angular project...
+		
+				-ng new projectName
+
+			-Build source code and host on local machine...
+
+				-ng serve (-o to open)
+	//TYPESCRIPT
+
+		-Strongly typed superset of javaScript, errors relating to types are given at compile time.
+
+		-does not run in browser, compiled to JS by CLI.
+	
+	//BOOTSTRAP
+	
+		-npm install --save bootstrap
+		
+			-the --save command marks this as a production dependency.
+
+		-import into angular.json file within the "styles" array under "src/styles.css,"
+		
+			-node_modules/bootstrap/dist/css/bootstrap.min.css
+
+		-bootstrap .container-fluid is necessary for 100% width.
+
+	//COMPONENTS
+
+		-add custom components to the root components' app.component.html file
+		
+		-components have to belong to a module.
+
+		#CREATING COMPONENTS
+			
+			//manually
+
+				-add folder under app directory name it whatever you'd name your component.
+
+				-create 'name'.component.ts file in new folder.
+
+					-export your class in this .ts file by ...
+					
+						export class 'name'Component{
+						}
+		
+					-make sure to import component from @anular/core
+
+						-import {Component} from '@angular/core';
+
+					-add metadata within decorator such as the selector.
+
+						-selector should be prefixed with app-'name'
+	
+						-add templateUrl and create the 'name'.component.html file which
+						 it references.
+
+							-templateUrl: './'name'.component.html'
+					
+				-register component in app.module.ts
+
+					-import{ComponentClass} from 'path';
+					
+					-add class name to declarations array...
+			
+				-Use your component by adding its selector to your root component's html file...
+
+			// with CLI
+
+				-ng g c 'name' OR ng generate component 'name' **no quotations!!
+
+				-this creates a folder with .ts, .html and .css files.
+
+				-the component is imported automatically into our module
+
+			-components can be nested within one another, multiple times if necessary.
+
+			-all components need a template
+
+	//TEMPLATES
+
+		-templates represent the html and combines our data from the model and controller.
+
+		-you can use external template files or inline templates written in the .ts file.
+
+			-in the component decorator denote templates with either...
+		
+				-template for inline.
+
+					-back ticks must be used for multiLine html code while
+					 working with inline templates.
+
+					-only use inline templates when html is 5 lines or less. 
+ 
+				-templateUrl for external.
+
+	//STYLES
+
+		-styles can be external files or inline as well...
+		
+			-external just reference a css file in the styleUrl array within the components .ts file.
+
+			-inline styling can be done by defining an array of strings named styles, much like a
+			 normal css file but within backticks.
+
+				-	@Component({
+
+						styles:[`
+								h1{
+									color:dodgerblue;
+								  }
+									
+							`]	
+					
+					})
+		
+		-a component can be referred to by it's selector in css files.
+
+		//Columns...
+			
+			-https://www.w3schools.com/bootstrap/bootstrap_grid_examples.asp
+
+	//SELECTORS
+
+		-selectors are defined in a components class decorator.	
+
+
+		//ELEMENT SELECTORS
+		
+			-element selectors are usually used for components.
+
+			-you define an element selector by simply typing a string 'name' for the selector value. 		
+
+			-selectors can be used in css files to set styles of components, just like h1, p etc.
+
+		//ATTRIBUTE SELECTORS
+
+			-selectors can be set to be referenced like attributes when put within square brackets 
+			 such as [selector].
+	
+			-attribute selectors can be added to normal html elements to transpose them.
+
+			-selectors can be set to true or false states...
+
+		//CLASS SELECTORS
+
+			-you can use class selectors like this...
+
+				-selector: '.app-servers',
+			
+
+	//DECORATOR
+		
+		-@ is the decorator symbol	
+
+		-decorators are a special kind of declaration that can be attached to class declarations,
+		 methods, accessors, properties or parameters. The string following the @ symbol is a 
+		 function that will be called at runtime with info about the decorated declaration.
+
+		-component decorator... @Component
+
+		-module decorator... 	@ngModule
+
+		//CLASS DECORATORS
+
+		-A class decorator is a function that takes the constructor of the class as its only
+		 parameter. If the class decorator returns a value, it will replace the class declaration with 
+		 the provided constructor function (override the constructor). Otherwise the class declaration
+ 		 will use the original constructor.
+
+	//DATA BINDING (data is within the components class)
+
+		-data binding is communication between your typeScript code and the html template.
+
+			-output data from .ts to .html
+
+			-input data from html to .ts such as events etc.
+
+		//STRING INTERPOLATION
+
+			-if you place this within an html element it will reference the data variable
+			 in the typeScript file.
+				
+				-{{data}} 
+
+			-this notation can hold anything that can be resolved into a string, including
+			 'strings' themselves and functions which return strings.
+
+			-<p class="test">{{'Server'}} with ID {{serverId}} is {{getServerStatus()}}.</p>
+
+		//PROPERTY BINDING
+
+			-if you place this as an attribute for an html element it will reference the data 
+			 variable in typeScript.
+
+				-[property]="data"
+
+				-<p [innerText]="allowNewServer" style="color:black;"></p>
+					
+					-string interpolation makes more sense in the above example, more 
+					 accurate depiction of what is happening...
+			
+						<p>{{allowNewServer}}</p>
+
+				-<button class="btn btn-primary" [disabled]="!allowNewServer" [class.noHover]='!allowNewServer'>
+
+					-[class.className] to bind classes to elements dependent upon boolean
+					 ts variables which can be seen below				
+
+					-ts file
+
+						export class ServersComponent implements OnInit {
+  						
+							allowNewServer = false;
+
+							  constructor() { 
+    								setTimeout(() =>  {
+      								this.allowNewServer=true;
+   								},2000)
+  							 }
+
+  							ngOnInit() {
+  							}
+
+						}
+
+					-setTimeout(function,ms) *arrow function used above
+		//EVENT BINDING
+
+			-you can put event attributes within elements to trigger functions etc.
+	
+				-(event)="expression"
+
+					    <button 
+        				     class="btn btn-primary" 
+        				    [disabled]="!allowNewServer" 
+               *specific class attribute -->[class.noHover]='!allowNewServer'
+        		   *event binding-->(click)="onCreateServer()"
+        				    >
+					    Add Server
+    					    </button>
+			-$event
+
+				-captures data about events such as (click) and (input)
+
+					 *HTML
+					 (input)="onUpdateServerName($event)"
+
+					 *TS
+					 onUpdateServerName(event:any)
+					 {
+						this.serverName=event.target.value
+					 }
+
+					
+
+		//TWO WAY BINDING
+
+			-combination of event and property binding	
+	
+			-<input [(ngModel)]='name'>
+			 <p>{{name}}</p>
+
+			-binds the element to a variable in a .ts file. It alters and represents this variable
+			 at the same time. 
+
+			-changes in the application state will be reflected in the view and vise-versa.
+
+				**FormsModule may need to be imported in app.module.ts file.
+
+	//DIRECTIVES
+
+		-ng is the prefix for built in directives, ngModel as used in two-way binding is a type of 
+		 directive.
+		
+		-you can build your own directives.
+
+		-components are directives.
+
+		-directives are instructions in the DOM.
+
+		//STRUCTURAL DIRECTIVES (adds or removes elements, configures DOM tree, denoted by *)
+
+			-*ngIf 
+				//This paragraph will only exist if serverCreated = true;
+
+				<p 
+					*ngIf="serverCreated"
+				>
+					Server was created, server name is {{displayServerName}}
+				</p>
+		
+			-*ngIf-else
+
+				//If serverCreated is true the paragraph will dipsplay, otherwise
+				the local reference in the else clause will display!
+
+				<p 
+					*ngIf="serverCreated; 
+					else noServer"
+				>	
+					Server was created, server name is {{displayServerName}}
+				</p>
+    					
+				<ng-template #noServer>
+        				<p>No server was created.</p>
+    				</ng-template>
+
+			-*ngFor (loop through array creating an element for each index)
+
+				//.html file
+
+				<app-server *ngFor="let server of servers"></app-server>
+
+				//.ts file
+
+			        servers = ['TestServer','AnotherSever'];
+
+				onEvent(){
+					this.servers.push(this.serverName);
+				}
+
+				-You can refer to the element, in this case 'server' in child elements of the tag holding this directive, 
+				 You can then refer to elements of said object like so...
+			
+					<app-server *ngFor="let server of servers">
+						<p>{{server.name}}</p>
+					</app-server>
+
+				
+					-this is useful with JSON files...
+					
+
+		//ATTRIBUTE DIRECTIVES (changes elements, does not alter their existence in DOM, no star)
+
+			-ngStyle
+
+				//.html file		
+				
+				<button  
+
+					[ngStyle]="{backgroundColor: getColor()}" 
+					class="test btn btn-primary"
+				>
+					Server with ID {{serverId}} is {{getServerStatus()}}.
+				</button>
+
+				//.ts file (returns outcome of ternary expression.)
+
+				getColor()
+				{
+					return this.serverStatus ==='online' ? 'green':'red';
+				}
+
+			-ngClass (helps you dynamically apply classes)
+
+				//classes are applied with key / value pairs, the keys being the class names
+				  and the values being conditions... these pairs are considered objects.
+
+				//classes are only added if their condition evaluates to true.
+
+				<button  
+    					[ngStyle]="{backgroundColor: getColor()}" 
+    					class="test btn btn-primary"
+    					[ngClass]="{
+							online: serverStatus==='online', 
+							offline:serverStatus==='offline'
+						   }"
+				>
+    					Server with ID {{serverId}} is {{getServerStatus()}}.
+				</button> 
+
+
+	//DATA SHARING...
+	//PASSING DATA BETWEEN COMPONENTS
+
+		-PARENT -> CHILD VIA @INPUT()
+
+			-import Input within child compoenent...
+
+				import {Component, Input} from '@angular/core';
+
+			-write input statement...
+			
+				@Input() varName: varType;
+
+			-bind property of parent .ts file in tag of child el...
+
+				//in parent html file...
+									      prop	prop
+										in 	  in 
+										child   parent
+				<childElement *ngFor="let server of servers" [servers]="server"></childElement>
+
+			-you can now access this property of the parent .ts file in the child component.
+
+		- CHILD -> PARENT VIA OUTPUT() and EVENT EMITTER
+
+			//CHILD COMPONENT
+
+			-import output & event emitter in child component
+
+				message = "some text!";
+
+				import{Component, Input, Output, EventEmitter} from '@angular/core';
+
+			
+			-output an event and set it to a new event emitter
+
+				@Output() messageEvent = new EventEmitter<String>
+
+			- create a funcition which calls emit still from child class.
+
+				sendMessage(){
+					this.messageEvent.emit(this.message)
+				}
+
+			-create a way to trigger this function in the html...
+
+				<button (click) = "sendMessage()">Send Message!</button>
+
+			//PARENT COMPONENT
+
+			-create a function to receive the message and set it equal to the desired variable...
+				
+				receiveMessage($event){
+					this.message = $event
+				}
+
+			-event bind in child element on parent .html 
+
+				(messageEvent) = "receiveMessage($event)"
+
+			-now you can set an attribute in the parent element from a child element.
+
+		-CHILD TO PARENT VIA VIEWCHILD()
+
+			-child won't be available until view is initialized!
+		
+			-import ViewChild in parent component as well as the child itself...
+
+				import{Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+				improt{ChildComponent} from "../child/child.component";
+	
+
+			-implement AfterViewInit life cycle hook...
+			
+				export class ParentComponent implements AfterViewInit{
+				}
+
+			-viewchild decorator and ngAfterViewInit function...
+			
+				export class ParentComponent implements AfterViewInit{
+
+					@viewChild(ChildCoponent) child;	
+
+					ngAfterViewInit(){
+						this.message=this.child.message;
+					}				
+
+				}
+				
+		-SHARE BETWEEN ANY COMPONENTS (Shared Service) rxJS behavior subject...
+
+			-create service...
+
+			-import behavior subject...
+
+				import {BehaviorSubject} from 'rxjsBehaviorSubject';
+
+			-declare variable within service as a new behavior subject and a variable to hold it's 
+			 value...
+				
+				private messageSource = new BehaviorSubject<string>("default message");
+
+				currentMessage=this.messageSource.asObservable();
+	
+			-create a fuction to call next and change behavior subjects value...
+			
+				changeMessage(message:string){
+					this.messageSource.next(message);
+				}
+
+			-inject the service in the constructors of components who will need to access this...
+		
+				constructor(private data: serviceName){}
+
+			-also within each component add a subscribtion to this variable within the ngOnInit...
+
+										//elementSubscribingTo=>task to 
+										  do when element changes...
+				ngOninit(){
+					this.data.currentMessage.subscribe(message=>this.message=message)
+				}
+
+			
+			-now we can create a function in any of these compoents to change the message, 
+			 then all other components will have the updated message...
+				
+				newMessage(){
+					this.data.changeMessage("Hello");
+				}
+			
+			 			
+
+	//SERVICES (ng generate service 'name')
+
+		-services are classes just like components.
+
+		- just like components, services need to belong to a module.
+
+			- instead of declarations , add services to the providers array. (class name)
+
+		-services are just business logic, no view template etc...
+
+		- ng generate service 'name' //no quotes
+
+		-services look like this...
+
+			import {injectable} from '@angular/core';
+
+			@injectable()
+			
+			export class 'name'{
+			} 
+
+		-injectable denotes services
+
+		-import and include services in module as an import and provider...
+			
+			import {service} from './service.service';
+
+			@NgModule({
+				...
+				providers: [service],
+				...
+			})
+
+		-dependency injection is necessary for components to access services...
+
+			constructor(var:serviceClass){//now you can access service methods etc.}
+		
+		
+
+	//DEPENDENCY INJECTION
+
+		-for instance passing a service as a parameter to a component's constructor...
+
+			constructor(var: serviceClass){
+				//do stuff like...
+
+				var.methodCall(arg);
+			}
+
+	//SUBSCRIBING	
+
+		- a method of observable object which comes from rxjs.
+		 
+		- as soon as this observable experiences a change the subscriber is updated.
+
+		- the subscriber will continue to be updated until you unsubscribe...
+
+		- angular uses this to handle events such as (click).
+
+			//EXAMPLE	
+
+				//service is injected into constructor and imported in relevant components.
+
+				this.service.method().subscribe(data=>this.var=data);
+
+				OR
+
+				this.service.method().subscribe(data=>{this.var=data; this.otherThing=false});
+
+	//ROUTING
+
+		-when creating a new project select 'yes' when prompted to include routing 
+
+		OR
+			
+		-create a app-routing-module.ts file and include <router-outlet></router-outlet> in your app-component.html file
+
+		THEN
+
+		-go to your app-routing.module.ts file and add to the path...
+
+			const routes: Routes = [{path:'',component:'componentClassName}]
+				
+				//the empty path ('') is default or home.
+
+			you can add more routes...
+
+				 {path:'photos/:albumId',component:PhotosComponent}
+
+		//ROUTER LINKS
+			
+			 <a routerLink="photos/{{album.id}}">{{album.title}}</a>
+
+	//OBSERVABLES
+
+		- will be standard in ES7.
+
+		- used for events and within http requests etc.
+
+		-observables are objects which only send data to subscribers, their data
+		 is "thrown" to the subscribers whenever it is updated.
+
+		-objects which depend on a observables are observers, they are notified of state changes.
+
+			observable---(data)--->observer
+		
+
+	//FORMS
+
+		import { FormsModule}    from '@angular/forms';
+
+		-form-groups and form-controls...
+
+		-reactive forms are better...
+
+	//PIPES
+
+		//ASYNC PIPE
+	
+	//MAP
+
+	//HTTP
+
+		-import service into app.module.ts...
+			
+			//module to module
+			import { HttpClientModule } from '@angular/common/http';
+	
+		-inject into imports array...
+			
+			imports:[x,y,HttpClientModule],
+
+		-WITH SERVICES AS WELL...
+
+			-import into name.service.ts file as well as inject into class constructor.
+
+				//instance of httpClient, not the module
+				constructor(private http:HttpClient){}
+
+			-you will then need to import and inject this service into the components you wish to have access to these servers...
+
+				import { PhotosService } from './../../services/photos.service';
+
+				./ == currentdirectors
+
+				../== one level up	
+		
+			-also inlclude this service in the app.module.ts files providers.
+
+	//AUTHENTICATION
+
+	//OPTIMIZATION
+
+	//MODULE
+
+		-modules bundle different components of your app.
+
+		-you can import modules into another module, usually the root app.module.ts file
+
+	//DEPLOYMENT
+
+	//ANIMATIONS
+
+	//TESTING
+
+	//LOCAL REFERENCE
+
+		-denoted by #, in this case added and removed dependant upon the value of serverCreated.
+
+		    	<p *ngIf="serverCreated; else noServer">Server was created, server name is {{displayServerName}}</p>
+    			
+			<ng-template #noServer>
+       				<p>No server was created.</p>
+    			</ng-template>
+
+	//CONSTRUCTORS
+
+		export class 'className'{
+			//DECLARATIONS
+
+			constructor(){
+				//do stuff to elements and their properties upon creation...
+
+				//setting a property to the outcome of a ternary expression for 
+				example...
+
+				//property	   	condition     ?   true  :  false	
+				this.serverStatus=Math.random() > 0.5 ? 'online':'offline';
+			}
+		}
+
+
+	//NGONINIT (ngOnInit)
+
+	//EVENT EMITTERS
+
+	//LIFECYCLE HOOKS
+
+	//INJECTABLES
+
+	//RXJS	
+
+	//PROMISES
+
+		-handle asynchronous tasks synchronously, once the task or promise is done either
+		 a resolve function is carried out or a reject function is carried out. It does not 
+		 care if there are subscribers it will return a value regardless. Promises can also 
+		 only return one value per call. If that call is succesful it will return the first 
+		 value regardless  of any other requests within the promise.
+		
+		 Obsevables on the othe hand return 
+		 values only when they are subscribed to and will return as many values as prompted.
+
+		//toPromise()
+
+		//then()
+
+		//EXAMPLE
+
+  		private fetchData()
+		{
+    			const promise = this.httpClient.get(this.apiUrl).toPromise();
+    			console.log(promise);  
+    			promise.then
+				(
+					(data)=>
+					{
+      						console.log("Promise resolved with: " + JSON.stringify(data));
+						resolve();
+   			 		}, 
+					(error)=>
+					{
+      						console.log("Promise rejected with " + JSON.stringify(error));
+						reject();
+    					}
+				)
+  		}
+
+	//BABEL
+
+	//BOOTSTRAP (CSS)
+
+		- you can include a style sheet link in the head of the index.html file... 
+
+		OR
+
+		- install into project and add to dependencies...
+				
+			//install into project directory...
+
+			npm install bootstrap@version
+
+			//import by updating angular.json styles array...
+
+			"styles":[
+				"node_nodules/bootstrap/etc...",	//path to bootstrap.min.css file	
+				"styles.css"
+			]
+
+			
+
+	//BOOTSTRAP (KEYWORD)
+
+	//SANITIZATION
+
+		- sanitization is the removal of malicious data from the user input such as forms to avoid
+		  data confilicts and security issues.
+
+	
+	//ZENCODING
+
+	- requires less typing and ensures accuracy...
+
+		-examples...
+
+			label+input[type='text'] //evaluates to...
+			
+				<label for=""></label><input type="text">
+
+			div.form-group  //evaluates to...
+
+				    <div class="form-group"></div>
+
+			div.form-group>label[for='comment']+textarea[id='comment'].form-control	//evaluates to...
+
+				    <div class="form-group">
+        				<label for="comment"></label>
+        				<textarea name="" id="comment" cols="30" rows="10" class="form-control">
+        				</textarea>
+    				    </div>
+				
+
+	//SET TIMEOUT IN SELF INVOKING FUNCTION
+		
+		
+  		(function(){
+    			setTimeout(() => {
+      			alert("It has been 2 seconds!");
+    			}, 2000);
+  		})();
+
+
+		//setTimeout
+
+			setTimeout(function(){},timeInMs);
+
+			OR
+
+			setTimeout(()=>{//stuff},timeInMs);
+
+	//CORS
+
+	//DOMAIN MODEL
+	
+	//CALLBACKS
+
+		//passing one function as a parameter to another, it can be called when 
+		  the function is done like in the example below.
+
+		function doHomework(subject, callback)
+		{
+ 			alert(`Starting my ${subject} homework.`);
+  			callback();
+		}
+
+		function alertFinished()
+		{
+ 		 	alert('Finished my homework');
+		}
+		
+		doHomework('math', alertFinished);
+
+
+		
+
+	
